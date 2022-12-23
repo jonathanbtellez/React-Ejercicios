@@ -3,20 +3,37 @@ import PropTypes from 'prop-types';
 import { Contacto } from '../../models/contacto.class.js';
 
 
-const ContactoComponent = ({ contacto }) => {
+const ContactoComponent = ({ contacto, conected, remove }) => {
+    const conectedButton = () => {
+        if (contacto.conectado) {
+            return (<span onClick={() => conected(contacto)} style={{ color: 'black', fontWeight: 'bold' }}>Conectado 
+                <i className="bi bi-circle-fill greenIcon"></i>
+            </span>)
+        } else {
+            return (<span onClick={() => conected(contacto)} style={{ color: 'black', fontWeight: 'bold' }}>No conectado
+                <i className="bi bi-circle-fill redIcon" ></i>
+            </span>)
+        }
+    }
+
+    const trashButton = () => {
+            return (<i onClick={() => remove(contacto) } className="bi bi-trash3 redIcon ms-5"></i>)
+    }
     return (
-        <div>
-            <h2>Nombre: {contacto.nombre}</h2>
-            <h2>Apellido: {contacto.apellido}</h2>
-            <h3>Email: {contacto.email}</h3>
-            <h4>Conectado: {contacto.conectado?'Conectado':'No conectado'}</h4>
-        </div>
+        <tr>
+            <td>{contacto.nombre}</td>
+            <td>{contacto.apellido}</td>
+            <td>{contacto.email}</td>
+            <td>{conectedButton()}{trashButton()}</td>
+        </tr>
     );
 };
 
 
 ContactoComponent.propTypes = {
-    contacto: PropTypes.instanceOf( Contacto ),
+    contacto: PropTypes.instanceOf(Contacto),
+    conected: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
 };
 
 
